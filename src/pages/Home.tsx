@@ -1,17 +1,17 @@
 import { usePosts } from '@/features/posts/usePosts';
+import Post from './Post';
+
+import Loader from '@/components/createdUi/Loader';
 
 function Home() {
   const { posts, isLoading, error } = usePosts();
 
-  if (isLoading) return <p>Loading....</p>;
+  if (isLoading) return <Loader />;
   if (error) return <p>error loading data</p>;
   return (
-    <div>
+    <div className='grid grid-cols-1 gap-1  place-items-center md:grid-cols-2 lg:grid-cols-3'>
       {posts?.map((post) => (
-        <div key={post.id}>
-          <p>{post.title}</p>
-          <p>{post.text}</p>
-        </div>
+        <Post key={post.id} {...post} />
       ))}
     </div>
   );

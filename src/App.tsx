@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import CreatePost from './pages/CreatePost';
 import Post from './pages/Post';
-import AppLayout from './components/ui/AppLayout';
+import AppLayout from './components/createdUi/AppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +23,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path='create' element={<CreatePost />} />
-            <Route path='post/:id' element={<Post />} />
+            {/* <Route path='post/:id' element={<Post />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>

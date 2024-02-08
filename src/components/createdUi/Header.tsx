@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 function Header() {
   return (
     <div className='bg-white-500 shadow-md w-full'>
-      <nav className='max-w-4xl mx-auto px-10 flex  items-center justify-between py-4'>
+      <nav className='max-w-[1440px] mx-auto px-10 flex  items-center justify-between py-4'>
         <Link to='/' className='uppercase text-xl font-bold text-gray-700'>
           YurexPage
         </Link>

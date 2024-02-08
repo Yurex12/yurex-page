@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+// import Post from '@/pages/Post';
 
 function AppLayout() {
   return (
-    <div className=''>
+    <div>
       <Header />
-      <main className='max-w-4xl mx-auto px-16'>
+      <main className='max-w-[1440px] mx-auto px-10'>
         <Outlet />
       </main>
     </div>

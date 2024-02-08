@@ -4,6 +4,9 @@ export type Post = {
   text: string;
   rating: number;
   id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
 };
 
 export type PostProps = Post[];
