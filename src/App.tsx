@@ -3,7 +3,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import CreatePost from './pages/CreatePost';
-import Post from './pages/Post';
+
 import AppLayout from './components/createdUi/AppLayout';
 
 const queryClient = new QueryClient({
