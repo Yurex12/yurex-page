@@ -1,16 +1,13 @@
-import { Link, NavLink } from 'react-router-dom';
+import { ModeToggle } from '../ui/ModeToggle';
 
 function Header() {
   return (
-    <div className='bg-white-500 shadow-md w-full'>
-      <nav className='max-w-[1440px] mx-auto px-10 flex  items-center justify-between py-4'>
-        <Link to='/' className='uppercase text-xl font-bold text-gray-700'>
+    <div className='shadow shadow-foreground/20  w-full fixed top-0 left-0 z-50 bg-background text-foreground p-4'>
+      <nav className='max-w-[1440px] mx-auto px-10 flex  items-center justify-between '>
+        <h2 className='uppercase text-lg font-bold text-foreground/85 sm:text-xl'>
           YurexPage
-        </Link>
-        <div className='space-x-5 font-semibold text-gray-600'>
-          <NavLink to='/'>Home</NavLink>
-          <NavLink to='/create'>Create</NavLink>
-        </div>
+        </h2>
+        <ModeToggle />
       </nav>
     </div>
   );

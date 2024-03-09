@@ -1,4 +1,4 @@
-import { TPostSchema, postSchema } from '@/lib/utils';
+import { Post, TPostSchema, createPostSchema } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -7,14 +7,27 @@ import FormRow from './FormRow';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreatePost } from '@/features/posts/useCreatePosts';
+
 import Spinner from './Spinner';
+import { useEditPost } from '@/features/posts/useEditPost';
 
 type FormProps = {
   setOpen: (state: boolean) => void;
+  isEditSession: boolean;
+  editValues: Partial<Post>;
+  editId: number;
 };
 
-function Form({ setOpen }: FormProps) {
+function CreateEditForm({
+  setOpen,
+  isEditSession,
+  editValues,
+  editId,
+}: FormProps) {
   const { createPost, isCreating } = useCreatePost();
+  const { editPost, isEditing } = useEditPost();
+
+  const isWorking = isCreating || isEditing;
 
   const {
     register,
@@ -22,66 +35,56 @@ function Form({ setOpen }: FormProps) {
     reset,
     formState: { errors },
   } = useForm<TPostSchema>({
-    resolver: zodResolver(postSchema),
+    resolver: zodResolver(createPostSchema(isEditSession)),
+
+    defaultValues: isEditSession ? editValues : {},
   });
 
   function onSubmit(data: TPostSchema) {
-    createPost(
-      { ...data, image: data.image[0] },
-      {
-        onSuccess: () => {
-          setOpen(false);
-          reset();
-        },
-      }
-    );
-    // const image = typeof data.image === 'string' ? data.image : data.image[0];
+    if (isEditSession) {
+      data?.image[0]?.name === undefined
+        ? (data.image = editValues.image)
+        : (data.image = data.image[0]);
 
-    // console.log(image, image.name);
-
-    // const imageName = `${Math.random()}-${
-    //   (data?.image[0] as { name: string })?.name
-    // }`
-    //   .replace(' ', '-')
-    //   .replace('/', '');
-
-    // createPost(
-    //   { ...data, image },
-    //   {
-    //     onSuccess: () => {
-    //       setOpen(false);
-    //       reset();
-    //     },
-    //   }
-    // );
-    // createPost(data, {
-    //   onSuccess: () => {
-    // setOpen(false);
-    //     reset();
-    //   },
-    // });
-
-    console.log(data);
+      editPost(
+        { newPostData: data, id: editId },
+        {
+          onSuccess: () => {
+            setOpen(false);
+            reset();
+          },
+        }
+      );
+    } else {
+      createPost(
+        { ...data, image: data.image[0] },
+        {
+          onSuccess: () => {
+            setOpen(false);
+            reset();
+          },
+        }
+      );
+    }
   }
   return (
     <form
       className='grid w-full items-center gap-4 p-4  h-[500px] overflow-y-scroll'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormRow label='photo' error={errors?.image?.message}>
+      <FormRow label='image' error={errors?.image?.message}>
         <Input
           {...register('image')}
           type='file'
           id='image'
-          disabled={isCreating}
-          accept='image/*'
+          disabled={isWorking}
         />
       </FormRow>
       <FormRow label='username' error={errors?.username?.message}>
         <Input
           {...register('username')}
           type='text'
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue='johndoe'
           id='username'
         />
@@ -91,7 +94,7 @@ function Form({ setOpen }: FormProps) {
         <Input
           {...register('firstname')}
           type='text'
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue='John'
           id='firstname'
         />
@@ -101,7 +104,7 @@ function Form({ setOpen }: FormProps) {
         <Input
           {...register('lastname')}
           type='text'
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue='Doe'
           id='lastname'
         />
@@ -112,7 +115,7 @@ function Form({ setOpen }: FormProps) {
           {...register('rating', {
             setValueAs: (value) => Number(value),
           })}
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue={1}
           id='rating'
           type='number'
@@ -123,7 +126,7 @@ function Form({ setOpen }: FormProps) {
           {...register('title')}
           type='text'
           placeholder='start typing...'
-          disabled={isCreating}
+          disabled={isWorking}
           id='title'
         />
       </FormRow>
@@ -133,20 +136,22 @@ function Form({ setOpen }: FormProps) {
           placeholder="Tell us what's on your mind"
           className='resize-none'
           {...register('text')}
-          disabled={isCreating}
+          disabled={isWorking}
           id='text'
         />
       </FormRow>
 
-      {isCreating ? (
-        <Button>
-          <Spinner className='border-t-white' />
+      {isWorking ? (
+        <Button disabled>
+          <Spinner className='border-t-background' />
         </Button>
       ) : (
-        <Button type='submit'>Add Post</Button>
+        <Button type='submit'>
+          {isEditSession ? 'Edit Post' : 'Add Post'}
+        </Button>
       )}
     </form>
   );
 }
 
-export default Form;
+export default CreateEditForm;

@@ -1,8 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import CreatePost from './pages/CreatePost';
+import { ThemeProvider } from './components/ui/ThemeProvider';
 
 import AppLayout from './components/createdUi/AppLayout';
 
@@ -18,15 +16,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Home />} />
-            <Route path='create' element={<CreatePost />} />
-            {/* <Route path='post/:id' element={<Post />} /> */}
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+        <AppLayout />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

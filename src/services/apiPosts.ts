@@ -14,15 +14,26 @@ export async function fetchPosts<T>(): Promise<T> {
   return data as T;
 }
 
-export async function createPost(newPost: Partial<Post>) {
-  const imageName = `${uuidv4()}-${newPost.image.name}`;
+export async function createEditPost(newPost: Partial<Post>, id?: number) {
+  const hasImagePath = newPost.image?.startsWith?.(supabaseUrl);
 
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/images/${imageName}`;
+  const imageName = `${uuidv4()}-${newPost?.image?.name}`;
 
-  const { data, error } = await supabase
-    .from('posts')
-    .insert([{ ...newPost, image: imagePath }])
-    .select();
+  const imagePath = hasImagePath
+    ? newPost.image
+    : `${supabaseUrl}/storage/v1/object/public/images/${imageName}`;
+
+  let query = supabase.from('posts');
+
+  //Create a new post
+  if (!id) query = query.insert([{ ...newPost, image: imagePath }]);
+
+  //to edit
+  if (id) {
+    query = query.update({ ...newPost, image: imagePath }).eq('id', id);
+  }
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);

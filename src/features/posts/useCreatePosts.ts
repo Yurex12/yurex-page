@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createPost as createPostApi } from '@/services/apiPosts';
+import { createEditPost as createPostApi } from '@/services/apiPosts';
 import toast from 'react-hot-toast';
 
 export function useCreatePost() {
@@ -9,7 +9,7 @@ export function useCreatePost() {
     mutationFn: createPostApi,
     onSuccess: () => {
       toast.success('New post succesfully created');
-      console.log('success');
+
       queryClient.invalidateQueries({
         queryKey: ['posts'],
       });

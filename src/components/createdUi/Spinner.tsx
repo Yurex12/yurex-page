@@ -5,7 +5,7 @@ type SpinnerProps = {
 
 function Spinner({ className }: SpinnerProps) {
   const styles = cn(
-    'border-2 border-t-[#202124]  border-l-transparent border-r-transparent border-b-transparent',
+    'border-2 border-t-foreground  border-l-transparent border-r-transparent border-b-transparent',
     className
   );
   return (

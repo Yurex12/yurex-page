@@ -1,16 +1,16 @@
-import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
-import AddPost from './AddPost';
+import AddPost from './AddEditPost';
 
 import { Toaster } from 'react-hot-toast';
+import Home from '@/components/createdUi/Home';
 
 function AppLayout() {
   return (
-    <div className='relative h-screen'>
+    <div className='h-[100dvh]'>
       <Header />
-      <main className='max-w-[1440px] mx-auto px-10'>
-        <Outlet />
+      <main className='container mx-auto px-10'>
+        <Home />
       </main>
       <Toaster
         position='top-center'
