@@ -21,6 +21,8 @@ type AddPostProps = {
 };
 
 function AddEditPost({ postToEdit = {}, showDialog = false }: AddPostProps) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { id: editId, ...editValues } = postToEdit;
 
   const isEditSession = Boolean(editId);
