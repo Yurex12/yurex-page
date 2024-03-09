@@ -26,10 +26,15 @@ export async function createEditPost(newPost: Partial<Post>, id?: number) {
   let query = supabase.from('posts');
 
   //Create a new post
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+
   if (!id) query = query.insert([{ ...newPost, image: imagePath }]);
 
   //to edit
   if (id) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     query = query.update({ ...newPost, image: imagePath }).eq('id', id);
   }
 

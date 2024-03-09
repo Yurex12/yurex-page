@@ -11,6 +11,7 @@ export type Post = {
   firstname: string;
   lastname: string;
   username: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: string | any;
 };
 

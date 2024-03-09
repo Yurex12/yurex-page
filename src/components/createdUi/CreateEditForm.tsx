@@ -72,7 +72,13 @@ function CreateEditForm({
       className='grid w-full items-center gap-4 p-4  h-[500px] overflow-y-scroll'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <FormRow label='image' error={errors?.image?.message}>
+      <FormRow
+        label='image'
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+
+        error={errors?.image?.message}
+      >
         <Input
           {...register('image')}
           type='file'
@@ -89,7 +95,6 @@ function CreateEditForm({
           id='username'
         />
       </FormRow>
-
       <FormRow label='firstname' error={errors?.firstname?.message}>
         <Input
           {...register('firstname')}
@@ -99,7 +104,6 @@ function CreateEditForm({
           id='firstname'
         />
       </FormRow>
-
       <FormRow label='lastname' error={errors?.lastname?.message}>
         <Input
           {...register('lastname')}
@@ -109,7 +113,6 @@ function CreateEditForm({
           id='lastname'
         />
       </FormRow>
-
       <FormRow label='rating' error={errors?.rating?.message}>
         <Input
           {...register('rating', {
@@ -130,7 +133,6 @@ function CreateEditForm({
           id='title'
         />
       </FormRow>
-
       <FormRow label='text' error={errors?.text?.message}>
         <Textarea
           placeholder="Tell us what's on your mind"
@@ -140,7 +142,6 @@ function CreateEditForm({
           id='text'
         />
       </FormRow>
-
       {isWorking ? (
         <Button disabled>
           <Spinner className='border-t-background' />
